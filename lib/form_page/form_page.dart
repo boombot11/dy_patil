@@ -46,14 +46,15 @@ class _form_pageState extends State<form_page> with SingleTickerProviderStateMix
   }
   @override
   Widget build(BuildContext context) {
-    return  clicked?spinkit(status: clicked):Scaffold(
+    return  Scaffold(
         appBar: AppBar(
         leading: IconButton(onPressed: ()=>Navigator.pop(context,SlideUpPageRoute(page:const LoginPage())), 
     icon: const Icon(Icons.skip_previous)),
         backgroundColor: Colors.blue.shade100,
         title: Text('Sign up'),
       ),
-      body: SafeArea(
+      body:clicked?spinkit(status: clicked):SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Question_builder(questions, controllers),
@@ -87,6 +88,7 @@ class _form_pageState extends State<form_page> with SingleTickerProviderStateMix
        crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ...form,
+        SizedBox(height: 25,),
         Container(
           width: double.infinity,
           alignment: Alignment.center,
@@ -110,9 +112,11 @@ class _form_pageState extends State<form_page> with SingleTickerProviderStateMix
                     setState(() {
                       clicked=true;
                       Future.delayed(Duration(milliseconds: 1300),(){
-                       Navigator.push(
-                    context,SlideUpPageRoute(page: landing()));
-                  Future.delayed(const Duration(milliseconds: 500),clean_Up);
+                   Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => landing()),
+              (Route<dynamic> route) => false, // This ensures that all previous routes are removed
+            );
                       }
                      );
                     });

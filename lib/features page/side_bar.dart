@@ -56,7 +56,7 @@ class _side_barState extends State<side_bar> with SingleTickerProviderStateMixin
         width: pop.value,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
            const SizedBox(height: 40),
            if(pop.value>80.0)

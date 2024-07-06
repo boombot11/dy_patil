@@ -49,7 +49,8 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
         backgroundColor: Colors.blue.shade100,
         title: Text('Sign up'),
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

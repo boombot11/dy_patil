@@ -51,7 +51,13 @@ _animationController!.forward();
   @override
   Widget build(BuildContext context) {
     return clicked?spinkit(status: clicked):Scaffold(
-      body: SafeArea(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.blue.shade100,
+        title:const Text('Nira-way to go'),
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
