@@ -11,7 +11,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 List<dynamic> items = [
 const SideMenuItem(
   title: 'Dashbord',
-  icon: const Icon(Icons.dashboard),
+  icon: Icon(Icons.dashboard),
   badgeColor: Colors.white
 ),
   SideMenuExpansionItem(
@@ -289,42 +289,7 @@ Widget build(BuildContext context) {
           child: AnimatedOpacity(
             duration:const Duration(milliseconds: 250),
             opacity: opacity_bool?1:0,
-            child: delay?SideMenu(
-              style: SideMenuStyle(
-                displayMode: clicked?SideMenuDisplayMode.open:SideMenuDisplayMode.auto,
-                openSideMenuWidth: size.width*0.75,
-                compactSideMenuWidth: size.width*0.0,
-                hoverColor: Colors.blue[100],
-                selectedColor: Colors.lightBlue,
-                selectedIconColor: Colors.white,
-            
-                unselectedIconColor: Colors.black54,
-                selectedTitleTextStyle: TextStyle(color: Colors.white),
-                unselectedTitleTextStyle: TextStyle(color: Colors.black54),
-                iconSize: size.width*0.07,
-                itemBorderRadius: const BorderRadius.all(
-                  Radius.circular(5.0),
-                ),
-                itemHeight: size.height*0.07,
-                itemInnerSpacing: size.width*0.02,
-                itemOuterPadding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 10),
-                toggleColor: Colors.black54,
-                backgroundColor: Colors.white,
-                // Additional properties for expandable items
-                selectedTitleTextStyleExpandable: TextStyle(color: Colors.black54), // Adjust the style as needed
-                unselectedTitleTextStyleExpandable: TextStyle(color: Colors.black54,fontSize: !delay?0:15), // Adjust the style as needed
-                selectedIconColorExpandable: Colors.black54, // Adjust the color as needed
-                unselectedIconColorExpandable: Colors.black54, // Adjust the color as needed
-                arrowCollapse: Colors.blueGrey, // Adjust the color as needed
-                arrowOpen: Colors.lightBlueAccent, // Adjust the color as needed
-                iconSizeExpandable: size.width*0.08, // Adjust the size as needed
-                ),
-              // Page controller to manage a PageView
-              controller: sideMenu,
-              // Will shows on top of all items, it can be a logo or a Title text
-              // List of SideMenuItem to show them on SideMenu
-              items: items,
-            ):Container(),
+            child: delay?side_bar(size: size, clicked: clicked, items: items, delay: delay):Container(),
           ),
         ),
   

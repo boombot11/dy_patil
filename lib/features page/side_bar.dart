@@ -1,129 +1,62 @@
+import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 
 class side_bar extends StatefulWidget {
-  final double start;
-  final double end;
-  final double height;
-  final bool state;
-  const side_bar({super.key,required this.end, required this.start,required this.height,required this.state});
+ final Size size;
+ bool clicked;
+ bool delay;
+ List<dynamic> items;
+   side_bar({super.key,required this.size,required this.clicked,required this.items,required this.delay});
 
   @override
   State<side_bar> createState() => _side_barState();
 }
 
 class _side_barState extends State<side_bar> with SingleTickerProviderStateMixin{
-  late Animation<double> pop=CurvedAnimation(parent: _controller, curve: Curves.easeOut);
-  late AnimationController _controller;
+ SideMenuController sideMenu = SideMenuController();
 @override
   void initState() {
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    pop=Tween(begin: widget.start,end: widget.end).animate(_controller);
-    if(widget.state&&_controller.value<widget.end*0.3)
-    _controller.forward();
-    if(!widget.state&&_controller.value>widget.end*0.9)
-    {
-      _controller.reverse();
-    }
   
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.state?AnimatedBuilder(animation: pop, builder: (context,child){
-      return Container(
-           decoration: BoxDecoration(
-             boxShadow: [
-              if(pop.value>widget.end*0.7)
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 135,
-                blurRadius: 55,
-                offset: Offset(-45, 0), // Changes position of shadow
-              ),
-            ],
-              border: Border.symmetric(
-                vertical: BorderSide(
-                  color: Colors.black,
-                )
-              ),
-                  color:Colors.blue.shade600,
-            ),
-        height:widget.height ,
-        width: pop.value,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-           const SizedBox(height: 40),
-           if(pop.value>80.0)
-           Padding(
-             padding: const EdgeInsets.symmetric(horizontal:15.0),
-             child: Container(
-              decoration:const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(25))
-              ),
-              alignment: Alignment.center,
-              width: pop.value,
-              child: const Padding(
-                padding:EdgeInsets.symmetric(vertical:5.0),
-                child: Text('Feature',style: TextStyle(color: Colors.black,fontSize: 19),),
-              ),
-             ),
-           ),
-                   const SizedBox(height: 10),
-             if(pop.value>80.0)
-           Padding(
-               padding: const EdgeInsets.symmetric(horizontal:15.0),
-             child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2,
+    return SideMenu(
+              style: SideMenuStyle(
+                displayMode: widget.clicked?SideMenuDisplayMode.open:SideMenuDisplayMode.auto,
+                openSideMenuWidth: widget.size.width*0.75,
+                compactSideMenuWidth: widget.size.width*0.0,
+                hoverColor: Colors.blue[100],
+                selectedColor: Colors.lightBlue,
+                selectedIconColor: Colors.white,
+                showTooltip: true,
+                unselectedIconColor: Colors.black54,
+                selectedTitleTextStyle: TextStyle(color: Colors.white),
+                unselectedTitleTextStyle: TextStyle(color: Colors.black54),
+                iconSize: (widget.size.width*0.07>33)?33:(widget.size.width*0.07<20)?20:widget.size.width*0.07,
+                itemBorderRadius: const BorderRadius.all(
+                  Radius.circular(5.0),
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(25))
-              ),
-              alignment: Alignment.center,
-              width: pop.value,
-              child:const Padding(
-                padding:EdgeInsets.symmetric(vertical:5.0),
-                child: Text('Feature',style: TextStyle(color: Colors.white,fontSize: 19),),
-              ),
-             ),
-           ),
-              const SizedBox(height: 10),
-           if(pop.value>80.0)
-           Padding(
-               padding: const EdgeInsets.symmetric(horizontal:15.0),
-             child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2,
+                itemHeight:widget.size.height*0.08,
+                itemInnerSpacing: widget.size.width*0.02,
+                itemOuterPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                toggleColor: Colors.black54,
+                backgroundColor: Colors.white,
+                // Additional properties for expandable items
+                selectedTitleTextStyleExpandable: TextStyle(color: Colors.black54), // Adjust the style as needed
+                unselectedTitleTextStyleExpandable: TextStyle(color: Colors.black54,fontSize: !widget.delay?0:15), // Adjust the style as needed
+                selectedIconColorExpandable: Colors.black54, // Adjust the color as needed
+                unselectedIconColorExpandable: Colors.black54, // Adjust the color as needed
+                arrowCollapse: Colors.blueGrey, // Adjust the color as needed
+                arrowOpen: Colors.lightBlueAccent, // Adjust the color as needed
+                iconSizeExpandable: (widget.size.width*0.07<33)?widget.size.width*0.07:33, // Adjust the size as needed
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(25))
-              ),
-              alignment: Alignment.center,
-              width: pop.value,
-              child: const Padding(
-                padding:EdgeInsets.symmetric(vertical:5.0),
-                child: Text('Feature',style: TextStyle(color: Colors.white,fontSize: 19),),
-              ),
-             ),
-           )
-           
-           
-          ],
-        ),
-      );
-    },
-    child: IconButton(onPressed: (){
-
-    },icon: Icon(Icons.more_horiz),),
-    ):Container();
+              // Page controller to manage a PageView
+              controller: sideMenu,
+              // Will shows on top of all items, it can be a logo or a Title text
+              // List of SideMenuItem to show them on SideMenu
+              items: widget.items,
+            );
   }
 }
