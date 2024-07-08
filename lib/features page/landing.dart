@@ -276,8 +276,8 @@ Widget build(BuildContext context) {
                 ],
               ),
             ),
-              pop_ip(size: Size(size.width*0.7,size.height*0.13), text: 'Feature pop up', page: LoginPage()).animate(
-                       controller: pop_up,).moveY(curve: Curves.easeIn, begin: feature_click?300:-200,end: feature_click?-200:300).fadeIn(
+              pop_ip(size: Size(size.width*0.5,size.height*0.4), text: 'Feature pop up', page: LoginPage()).animate(
+                       controller: pop_up,).moveY(curve: Curves.easeIn, begin: feature_click?size.height*1:size.height*-0.6,end: feature_click?size.height*-0.6:size.height*1).fadeIn(
                         duration: const Duration(milliseconds: 100),
                        )
             ],
