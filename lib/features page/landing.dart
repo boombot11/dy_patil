@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'dart:ui' as ui;
 import 'package:dy_patil/Login/login.dart';
 import 'package:dy_patil/features%20page/pop_up.dart';
@@ -296,6 +297,13 @@ Widget build(BuildContext context) {
          
       ],
     ),
-  );
+    floatingActionButton: FloatingActionButton(onPressed: (){
+
+      },
+      child:Icon(
+  CupertinoIcons.chat_bubble_2_fill,
+),
+
+      ).animate(controller: no2).shimmer(duration: Duration(milliseconds: 500)).scaleXY(begin:1,end:1.2,curve:Curves.easeIn,duration: const Duration(milliseconds: 500)));
 }
 }

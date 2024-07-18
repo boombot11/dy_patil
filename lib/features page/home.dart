@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:dy_patil/Login/login.dart';
 import 'package:dy_patil/features%20page/landing.dart';
 import 'package:dy_patil/features%20page/pop_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter/cupertino.dart';
 
 class home_page extends StatefulWidget {
   const home_page({super.key});
@@ -41,6 +44,7 @@ class _home_pageState extends State<home_page> with TickerProviderStateMixin{
           ),
         ),
       ),
+     
     );
   }
 }

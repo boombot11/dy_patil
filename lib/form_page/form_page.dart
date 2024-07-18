@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:dy_patil/Login/login.dart';
 import 'package:dy_patil/Page_transition/page_transition.dart';
 import 'package:dy_patil/features%20page/landing.dart';
@@ -14,11 +15,11 @@ class form_page extends StatefulWidget {
 }
 
 
-class _form_pageState extends State<form_page> with SingleTickerProviderStateMixin {
+class _form_pageState extends State<form_page> with TickerProviderStateMixin {
   bool clicked=false;
   late List<String> questions;
   late List<TextEditingController> controllers;
-  
+  late AnimationController buttonController;
   AnimationController? _animationController;
 
 
@@ -32,16 +33,26 @@ class _form_pageState extends State<form_page> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
+    buttonController=AnimationController(vsync: this, duration:const Duration(milliseconds: 500));
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: 300),
     );
   questions=[
  "aaaaaaaaaaaaa",
  "bbbbbbbbbbbbbbbb",
  "cccccccccccccccccc",
    ];
+   _animationController!.addStatusListener((status) {
+    if(status==AnimationStatus.completed)
+   {
+    print('xxxxxxxxxxxxxxxxxxxxxxxxx');
+     _animationController!.reset();
+      Timer(Duration(seconds: 4), () {_animationController!.forward(); });
+   }
+   });
    controllers=List.generate(questions.length, (index) => TextEditingController());
+   buttonController.forward();
    _animationController!.forward();
   }
   @override
@@ -60,7 +71,18 @@ class _form_pageState extends State<form_page> with SingleTickerProviderStateMix
           child: Question_builder(questions, controllers),
         ),
       ),
-    );
+      floatingActionButton: FloatingActionButton(onPressed: (){
+
+      },
+      child:Icon(
+  CupertinoIcons.chat_bubble_2_fill,
+),
+
+      ).animate(controller: buttonController,
+      onComplete: (controller){
+          Timer(const Duration(seconds: 3), () {controller.reset();controller.forward();});
+      }
+      ).shimmer(duration: Duration(milliseconds: 500)).scaleXY(begin:1,end:1.2,curve:Curves.easeIn,duration: const Duration(milliseconds: 500)));
   }
 
   Widget Question_builder(List<String> questions,List<TextEditingController> controllers) {
@@ -123,10 +145,7 @@ class _form_pageState extends State<form_page> with SingleTickerProviderStateMix
                   },
                   child: const Text('Submit',style: TextStyle(color: Colors.black87,fontSize: 25,fontWeight: FontWeight.w300),).animate(
                      delay: Duration(seconds: 4),
-                    onComplete: (controller) =>Timer(const Duration(seconds: 2), () { 
-                       controller.reset();
-                       controller.forward();
-                    }),
+                    
                     controller: _animationController,
                   ).shimmer(
                     color: Colors.white
